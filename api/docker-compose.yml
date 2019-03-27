@@ -1,0 +1,26 @@
+version: '3.5'
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local
+
+services:
+  app:
+    image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    container_name: app
+    ports:
+      - 5000:5000
+      - 5001:5001
+    volumes:
+      - ./:/app
+    working_dir: /app
+    entrypoint: "dotnet watch run --urls http://0.0.0.0:5000;https://0.0.0.0:5001"
+    networks:
+      - frontend
+      - backend
