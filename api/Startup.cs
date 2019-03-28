@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 //using Microsoft.Extensions.Logging;
 //using Microsoft.Extensions.Options;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using TodoApi.Models;
 
 namespace TodoApi
@@ -27,8 +28,16 @@ namespace TodoApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            // コンテキストクラスを登録
+            // services.AddDbContext<TodoContext>(options => options.UseInMemoryDatabase("TodoList"));
+            // services.AddDbContext<TodoContext>(
+            //     options => options.UseMySql(Configuration.GetConnectionString("DefaultContext"))
+            // );
+            services.AddDbContext<TodoContext>(
+                options => options.UseMySql("server=db;userid=root;password=root;database=develop;")
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

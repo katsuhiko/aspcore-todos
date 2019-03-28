@@ -18,9 +18,24 @@ services:
       - 5000:5000
       - 5001:5001
     volumes:
-      - ./:/app
+      - ./api/:/app
     working_dir: /app
     entrypoint: "dotnet watch run --urls http://0.0.0.0:5000;https://0.0.0.0:5001"
     networks:
       - frontend
+      - backend
+  db:
+    image: mysql:5.7
+    container_name: db
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_DATABASE=develop
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=user
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./docker/local/mysql/etc-mysql.cnf:/etc/mysql/conf.d/etc-mysql.cnf
+      - db-data:/var/lib/mysql
+    networks:
       - backend
