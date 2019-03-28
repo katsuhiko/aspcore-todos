@@ -32,11 +32,8 @@ namespace TodoApi
 
             // コンテキストクラスを登録
             // services.AddDbContext<TodoContext>(options => options.UseInMemoryDatabase("TodoList"));
-            // services.AddDbContext<TodoContext>(
-            //     options => options.UseMySql(Configuration.GetConnectionString("DefaultContext"))
-            // );
             services.AddDbContext<TodoContext>(
-                options => options.UseMySql("server=db;userid=root;password=root;database=develop;")
+                options => options.UseMySql(Configuration.GetConnectionString("Default"))
             );
         }
 
